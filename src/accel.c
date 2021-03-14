@@ -18,6 +18,12 @@
 #define REG_ODR 0x10
 #define REG_PWR 0x11
 
+/* Pins */
+#define SDA_PIN 25
+#define SCL_PIN 28
+#define PWR_PIN 24
+
+
 
 /* TWI instance ID. */
 #define TWI_INSTANCE_ID     0
@@ -38,8 +44,8 @@ static void twi_init (void)
     ret_code_t err_code;
 
     const nrf_drv_twi_config_t twi_config = {
-       .scl                = 28,
-       .sda                = 25,
+       .scl                = SCL_PIN,
+       .sda                = SDA_PIN,
        .frequency          = NRF_TWI_FREQ_100K,
        .interrupt_priority = APP_IRQ_PRIORITY_HIGH,
        .clear_bus_init     = false
@@ -72,8 +78,11 @@ void accel_twi_write(uint8_t addr, uint8_t* buffer, int len) {
 }
 
 void accel_init(void) {
-    nrf_gpio_cfg_output(24);
-    nrf_gpio_pin_write(24, 1);
+
+    // We power the accelerometer from a GPIO
+    // This is fine as the current draw is very low
+    nrf_gpio_cfg_output(PWR_PIN);
+    nrf_gpio_pin_write(PWR_PIN, 1);
 
     twi_init();
 
