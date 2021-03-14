@@ -1,5 +1,6 @@
 # Accelerometer controlled BLE mouse
 A BLE mouse controlled by an accelerometer, using the NRF51 DK and a MSA301
+
 ![Demo](./demo.gif "Demo")
 
 
